@@ -5,7 +5,7 @@ import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
 import { PaginationArgs } from 'src/common/dto/pagination.args';
-import { PaginatedUsers } from './types/paginatedUsers.type';
+import { PaginatedUsers } from './types/paginated-users.type';
 
 @Resolver(() => User)
 @UseGuards(JwtAuthGuard)

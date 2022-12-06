@@ -5,7 +5,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { AuthDto } from '../auth/dto/auth.dto';
 import { User } from './entities/user.entity';
 import { PaginationArgs } from 'src/common/dto/pagination.args';
-import { PaginatedUsers } from './types/paginatedUsers.type';
+import { PaginatedUsers } from './types/paginated-users.type';
 
 @Injectable()
 export class UsersService {
