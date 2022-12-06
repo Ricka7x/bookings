@@ -4,6 +4,8 @@ import { PrismaService } from '../prisma/prisma.service';
 
 import { AuthDto } from '../auth/dto/auth.dto';
 import { User } from './entities/user.entity';
+import { PaginationArgs } from 'src/common/dto/pagination.args';
+import { PaginatedUsers } from './types/paginatedUsers.type';
 
 @Injectable()
 export class UsersService {
@@ -27,9 +29,52 @@ export class UsersService {
     });
   }
 
-  findAll(): Promise<User[]> {
-    return this.prisma.user.findMany({
-      include: { profile: true },
+  async findAll(paginationArgs: PaginationArgs): Promise<PaginatedUsers> {
+    const { limit, cursor } = paginationArgs;
+
+    if (isNaN(Number(cursor))) {
+      const users = await this.prisma.user.findMany({
+        take: limit + 1,
+        include: { profile: true, artist: true },
+        orderBy: { id: 'asc' },
+      });
+
+      const hasNextPage = users.length > limit;
+
+      const items = hasNextPage ? users.slice(0, -1) : users;
+
+      const endCursor =
+        users[hasNextPage ? users.length - 2 : users.length - 1].id;
+
+      return {
+        items,
+        pageInfo: {
+          hasNextPage,
+          endCursor,
+        },
+      };
+    }
+    const users = await this.prisma.user.findMany({
+      take: limit + 1,
+      skip: 1,
+      cursor: { id: Number(cursor) },
+      include: { profile: true, artist: true },
+      orderBy: { id: 'asc' },
     });
+
+    const hasNextPage = users.length > limit;
+
+    const items = hasNextPage ? users.slice(0, -1) : users;
+
+    const endCursor =
+      users[hasNextPage ? users.length - 2 : users.length - 1].id;
+
+    return {
+      items,
+      pageInfo: {
+        hasNextPage,
+        endCursor,
+      },
+    };
   }
 }

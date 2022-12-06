@@ -28,6 +28,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   profile   Profile?
+  artist    Artist?
 }
 
 
@@ -42,5 +43,15 @@ model Profile {
   updatedAt DateTime @updatedAt
 }
 
+
+model Artist {
+  id        Int   @id @default(autoincrement())
+  name      String
+  bio       String?
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 
 

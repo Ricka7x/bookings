@@ -2,6 +2,12 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Artist {
+  id: ID!
+  name: String!
+  bio: String
+}
+
 type Profile {
   firstName: String!
   lastName: String!
@@ -20,17 +26,33 @@ type User {
   email: String!
   roles: [String!]!
   profile: Profile
+  artist: Artist
   createdAt: DateTime!
   updatedAt: DateTime!
 }
 
+type PageInfoType {
+  hasNextPage: Boolean!
+  endCursor: Int!
+}
+
+type PaginatedUsers {
+  items: [User!]!
+  pageInfo: PageInfoType!
+}
+
 type Query {
-  GetUsers: [User!]!
+  GetUsers(limit: Int = 5, cursor: Int): PaginatedUsers!
+  GetArtists: [Artist!]!
+  GetOneArtist: Artist!
 }
 
 type Mutation {
   CreateProfile(createProfileInput: CreateProfileInput!): Profile!
   EditProfile(updateProfileInput: UpdateProfileInput!): Profile!
+  CreateArtist(createArtistInput: CreateArtistInput!): Artist!
+  UpdateArtist(updateArtistInput: UpdateArtistInput!): Artist!
+  DeleteOneArtist: Artist!
 }
 
 input CreateProfileInput {
@@ -43,4 +65,14 @@ input UpdateProfileInput {
   firstName: String
   lastName: String
   middleName: String
+}
+
+input CreateArtistInput {
+  name: String!
+  bio: String
+}
+
+input UpdateArtistInput {
+  name: String!
+  bio: String
 }

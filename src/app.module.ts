@@ -12,6 +12,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { configValidationSchema } from './config.schema';
 import { ProfileModule } from './profile/profile.module';
+import { ArtistsModule } from './artists/artists.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { ProfileModule } from './profile/profile.module';
     UsersModule,
     AuthModule,
     ProfileModule,
+    ArtistsModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
