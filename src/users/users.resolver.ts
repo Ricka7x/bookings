@@ -3,7 +3,7 @@ import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { GetUser } from 'src/auth/decorators/get-user.decorator';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { PaginationArgs } from 'src/common/dto/pagination.args';
 import { PaginatedUsers } from './types/paginated-users.type';
 
@@ -15,7 +15,7 @@ export class UsersResolver {
   @Query(() => PaginatedUsers, { name: 'GetUsers' })
   findAll(
     @Args() paginationArgs: PaginationArgs,
-    @GetUser() user: User,
+    @CurrentUser() user: User,
   ): Promise<PaginatedUsers> {
     console.log(user);
 

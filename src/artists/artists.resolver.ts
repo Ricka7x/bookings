@@ -5,7 +5,7 @@ import { CreateArtistInput } from './dto/create-artist.input';
 import { UpdateArtistInput } from './dto/update-artist.input';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { GetUser } from 'src/auth/decorators/get-user.decorator';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { User } from 'src/users/entities/user.entity';
 
 @Resolver(() => Artist)
@@ -16,31 +16,31 @@ export class ArtistsResolver {
   @Mutation(() => Artist, { name: 'CreateArtist' })
   createArtist(
     @Args('createArtistInput') createArtistInput: CreateArtistInput,
-    @GetUser() user: User,
+    @CurrentUser() user: User,
   ) {
     return this.artistsService.create(createArtistInput, user);
   }
 
   @Query(() => [Artist], { name: 'GetArtists' })
-  findAll(@GetUser() user: User) {
+  findAll(@CurrentUser() user: User) {
     return this.artistsService.findAll(user);
   }
 
   @Query(() => Artist, { name: 'GetOneArtist' })
-  findOne(@GetUser() user: User) {
+  findOne(@CurrentUser() user: User) {
     return this.artistsService.findOne(user);
   }
 
   @Mutation(() => Artist, { name: 'UpdateArtist' })
   updateArtist(
     @Args('updateArtistInput') updateArtistInput: UpdateArtistInput,
-    @GetUser() user: User,
+    @CurrentUser() user: User,
   ) {
     return this.artistsService.update(updateArtistInput, user);
   }
 
   @Mutation(() => Artist, { name: 'DeleteOneArtist' })
-  removeArtist(@GetUser() user: User) {
+  removeArtist(@CurrentUser() user: User) {
     return this.artistsService.remove(user);
   }
 }
