@@ -4,6 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { User } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { AuthDto } from './dto/auth.dto';
+import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { AuthResponse } from './types/auth-response.type';
 
 @Injectable()
@@ -13,13 +14,15 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  private getJwtToken(userId: number) {
-    return this.jwtService.sign({ id: userId });
+  private getJwtToken(payload: JwtPayload) {
+    return this.jwtService.sign(payload);
   }
 
   async signup(authDto: AuthDto): Promise<AuthResponse> {
     const user = await this.userService.create(authDto);
-    const accessToken = this.getJwtToken(user.id);
+    const accessToken = this.getJwtToken({
+      id: user.id,
+    });
 
     return { accessToken };
   }
@@ -32,7 +35,9 @@ export class AuthService {
       throw new BadRequestException('Email / Password do not match');
     }
 
-    const accessToken = this.getJwtToken(user.id);
+    const accessToken = this.getJwtToken({
+      id: user.id,
+    });
 
     return { accessToken };
   }
@@ -44,7 +49,9 @@ export class AuthService {
   }
 
   revalidateToken(user: User): AuthResponse {
-    const accessToken = this.getJwtToken(user.id);
+    const accessToken = this.getJwtToken({
+      id: user.id,
+    });
 
     return { accessToken };
   }
