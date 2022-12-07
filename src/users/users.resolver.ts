@@ -5,9 +5,9 @@ import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { PaginationArgs } from 'src/common/dto/pagination.args';
 import { PaginatedUsers } from './types/paginated-users.type';
-import { Roles } from 'src/auth/decorators/roles.decotator';
+import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/enums/role.enum';
-import { RolesGuard } from 'src/auth/guards/roles.guards';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @Resolver(() => User)
 @UseGuards(JwtAuthGuard, RolesGuard)
