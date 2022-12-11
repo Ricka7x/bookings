@@ -26,6 +26,10 @@ import { ArtistsModule } from './artists/artists.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      cors: {
+        origin: '*',
+        credentials: true,
+      },
     }),
     PrismaModule,
     UsersModule,

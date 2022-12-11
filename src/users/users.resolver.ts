@@ -15,7 +15,7 @@ export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
   @Query(() => PaginatedUsers, { name: 'GetUsers' })
-  @Roles(Role.ADMIN)
+  @Roles(Role.USER)
   findAll(@Args() paginationArgs: PaginationArgs): Promise<PaginatedUsers> {
     return this.usersService.findAll(paginationArgs);
   }
